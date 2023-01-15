@@ -13,12 +13,6 @@ pipeline{
         booleanParam(name: 'UnitTestCases', defaultValue: false)
     }
   stages {
-    stage('Git Checkout') {
-      steps {
-        checkout scm
-      }
-    }
-
     stage('Build Docker Image') {
       parallel {
         stage('Build Docker Image') {
@@ -30,7 +24,6 @@ pipeline{
         }
       }
     }
-
     stage('Deploy in ECS') {
       steps {
         script {
@@ -46,9 +39,9 @@ aws ecs update-service --cluster ${CLUSTER} --service ${SERVICE_NAME} --task-def
 
       }
     }
-    stage('Adding New Stage') {
+    stage('Adding test') {
       steps {
-        sh 'echo adding a new stage'
+        sh 'echo separator'
       }
     }
   }
